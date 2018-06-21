@@ -1,3 +1,7 @@
 v15
 Library
 screenshots
+/.vs/testRenderCam/DesignTimeBuild/*.dtbcache
+*.meta
+Temp
+/build

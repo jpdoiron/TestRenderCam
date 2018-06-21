@@ -11,22 +11,23 @@ public class MoveCameraScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        StartCoroutine(Rotation());
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        StartCoroutine(Rotation());
+        
     }
 
     private IEnumerator Rotation()
     {
         while (true)
         {
-            yield return new WaitForSeconds(0.1f);
-            Vector3 rand = (UnityEngine.Random.insideUnitSphere).normalized * distanceMax;
+            yield return new WaitForSeconds(0.03f);
+            Vector3 rand = (UnityEngine.Random.insideUnitSphere) * distanceMax;
+            if (rand.magnitude < 1) rand.Normalize();
             rand.y = Mathf.Abs(rand.y);
             transform.position = rand;
             transform.LookAt(new Vector3(0,1,0));
