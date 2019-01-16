@@ -635,14 +635,14 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!23 &410885144
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 410885143}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -694,8 +694,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 410885143}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.15, z: 0.134}
-  m_LocalScale: {x: 0.62426823, y: 0.30174673, z: 0.5805452}
+  m_LocalPosition: {x: 0.24, y: 0.8, z: -0}
+  m_LocalScale: {x: 2.7178695, y: 1.2101551, z: 1.1137465}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
@@ -804,8 +804,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rectPied: {fileID: 909101652}
-  captureWidth: 64
-  captureHeight: 64
+  captureWidth: 1024
+  captureHeight: 1024
   hideGameObject: {fileID: 0}
   optimizeForManyScreenshots: 1
   format: 2

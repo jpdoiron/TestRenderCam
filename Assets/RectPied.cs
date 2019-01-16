@@ -84,7 +84,7 @@ public class RectPied : MonoBehaviour {
 
     void OnGUI()
     {
-        //GUI.Box(ScrRect, "Area");
+        GUI.Box(ScrRect, "Area");
 
 
     }
