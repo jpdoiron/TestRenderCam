@@ -10,6 +10,7 @@ using System.IO;
 
 public class ScreenRecorder : MonoBehaviour
 {
+    public RectPied rectPied;
     // 4k = 3840 x 2160   1080p = 1920 x 1080
     public int captureWidth = 1920;
     public int captureHeight = 1080;
@@ -31,7 +32,7 @@ public class ScreenRecorder : MonoBehaviour
     private Rect rect;
     private RenderTexture renderTexture;
     private Texture2D screenShot;
-    private int counter = 0; // image #
+    private int counter = 1; // image #
 
     // commands
     private bool captureScreenshot = false;
@@ -58,6 +59,7 @@ public class ScreenRecorder : MonoBehaviour
             // count number of files of specified format in folder
             string mask = string.Format("screen_{0}x{1}*.{2}", width, height, format.ToString().ToLower());
             counter = Directory.GetFiles(folder, mask, SearchOption.TopDirectoryOnly).Length;
+            if (counter == 0) counter = 1;
         }
 
         // use width, height, and counter for unique file name
@@ -73,6 +75,9 @@ public class ScreenRecorder : MonoBehaviour
 
     public void CaptureScreenshot()
     {
+        //captureWidth = Screen.width;
+        //captureHeight = Screen.height;
+
         // hide optional game object if set
         if (hideGameObject != null) hideGameObject.SetActive(false);
 
@@ -134,20 +139,44 @@ public class ScreenRecorder : MonoBehaviour
         }
         folder += "/screenshots";
 
-        string pos = Camera.main.transform.position.ToString();
-        pos = pos.Replace("(", "").Replace(")", "");
-        File.AppendAllText(folder + "/output.txt",pos  + "\n");
+
+
+        rectPied.UpdatePos();
+        rectPied.ScrRect.x /= (Screen.width / captureWidth);
+        rectPied.ScrRect.y /= (Screen.height / captureHeight);
+
+        rectPied.ScrRect.width /= (Screen.width / captureWidth);
+        rectPied.ScrRect.height /= (Screen.height / captureHeight);
+
+        if (rectPied.ScrRect.width <= 0 || 
+            rectPied.ScrRect.height <= 0 ||
+            rectPied.ScrRect.xMax > captureWidth || 
+            rectPied.ScrRect.yMax > captureHeight)
+        {
+            counter--;
+            return;
+        }
+
+
+
+        float pos = Vector3.SignedAngle(Camera.main.transform.position, Vector3.forward, Vector3.up);
+        //angle 0 to 360
+        if (pos < 0) pos = 360 + pos;
+
+
+        string rec = rectPied.ScrRect.x + "," + rectPied.ScrRect.y + "," + rectPied.ScrRect.width + "," + rectPied.ScrRect.height;
+        File.AppendAllText(folder + "/output.txt", pos + "," + rec + "\n");
 
         // create new thread to save the image to file (only operation that can be done in background)
         //new System.Threading.Thread(() =>
         //{
-            // create file and write optional header with image bytes
-            var f = System.IO.File.Create(filename);
-            if (fileHeader != null) f.Write(fileHeader, 0, fileHeader.Length);
-            f.Write(fileData, 0, fileData.Length);
-            f.Close();
+        // create file and write optional header with image bytes
+        var f = System.IO.File.Create(filename);
+        if (fileHeader != null) f.Write(fileHeader, 0, fileHeader.Length);
+        f.Write(fileData, 0, fileData.Length);
+        f.Close();
 
-            //Debug.Log(string.Format("Wrote screenshot {0} of size {1}", filename, fileData.Length));
+        //Debug.Log(string.Format("Wrote screenshot {0} of size {1}", filename, fileData.Length));
         //}).Start();
 
         // unhide optional game object if set
