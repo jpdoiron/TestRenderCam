@@ -10,6 +10,8 @@ using System.IO;
 
 public class ScreenRecorder : MonoBehaviour
 {
+
+    public string objectClass = "0";
     public RectPied rectPied;
     // 4k = 3840 x 2160   1080p = 1920 x 1080
     public int captureWidth = 1920;
@@ -38,6 +40,7 @@ public class ScreenRecorder : MonoBehaviour
     private bool captureScreenshot = false;
     private bool captureVideo = false;
 
+
     // create a unique filename using a one-up variable
     private string uniqueFilename(int width, int height)
     {
@@ -51,15 +54,17 @@ public class ScreenRecorder : MonoBehaviour
                 var stringPath = folder + "/..";
                 folder = Path.GetFullPath(stringPath);
             }
-            folder += "/screenshots";
+            folder += "/screenshots/"+objectClass;
 
             // make sure directoroy exists
             System.IO.Directory.CreateDirectory(folder);
 
             // count number of files of specified format in folder
-            string mask = string.Format("screen_{0}x{1}*.{2}", width, height, format.ToString().ToLower());
+            string mask = string.Format("*.{0}", format.ToString().ToLower());
             counter = Directory.GetFiles(folder, mask, SearchOption.TopDirectoryOnly).Length;
+            
             if (counter == 0) counter = 1;
+            
         }
 
         // use width, height, and counter for unique file name
@@ -124,6 +129,7 @@ public class ScreenRecorder : MonoBehaviour
         }
         else // ppm
         {
+
             // create a file header for ppm formatted file
             string headerStr = string.Format("P6\n{0} {1}\n255\n", rect.width, rect.height);
             fileHeader = System.Text.Encoding.ASCII.GetBytes(headerStr);
@@ -137,7 +143,7 @@ public class ScreenRecorder : MonoBehaviour
             var stringPath = folder + "/..";
             folder = Path.GetFullPath(stringPath);
         }
-        folder += "/screenshots";
+        folder += "/screenshots/"+objectClass;
 
 
 
@@ -159,13 +165,19 @@ public class ScreenRecorder : MonoBehaviour
 
 
 
-        float pos = Vector3.SignedAngle(Camera.main.transform.position, Vector3.forward, Vector3.up);
+        int pos = (int)Vector3.SignedAngle(Camera.main.transform.position, Vector3.forward, Vector3.up);
         //angle 0 to 360
         if (pos < 0) pos = 360 + pos;
-
-
-        string rec = rectPied.ScrRect.x + "," + rectPied.ScrRect.y + "," + rectPied.ScrRect.width + "," + rectPied.ScrRect.height;
-        File.AppendAllText(folder + "/output.txt", pos + "," + rec + "\n");
+        
+        int x = (int)rectPied.ScrRect.x;
+        int y = (int)rectPied.ScrRect.y;
+        int x2 = x+(int)rectPied.ScrRect.width;
+        int y2 = y+(int)rectPied.ScrRect.width;
+        string rec = string.Format("{0},{1},{2},{3}", x, y, x2, y2);
+        //string rec = x+ "," + int.Parse(rectPied.ScrRect.y) + "," + int.Parse(rectPied.ScrRect.width) + "," + int.Parse(rectPied.ScrRect.height);
+        string contents = string.Format("{0},{1},{2},{3}\n",filename,pos,rec,objectClass);
+        contents = contents.Replace(@"\","/");
+        File.AppendAllText(folder + "/output.txt", contents);
 
         // create new thread to save the image to file (only operation that can be done in background)
         //new System.Threading.Thread(() =>

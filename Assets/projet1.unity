@@ -804,8 +804,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rectPied: {fileID: 909101652}
-  captureWidth: 1024
-  captureHeight: 1024
+  captureWidth: 64
+  captureHeight: 64
   hideGameObject: {fileID: 0}
   optimizeForManyScreenshots: 1
   format: 2

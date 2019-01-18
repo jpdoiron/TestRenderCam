@@ -9,6 +9,8 @@ public class MoveCameraScript : MonoBehaviour
     public bool RandomizeLook = false;
     public float distanceMax = 2f;
     public float distanceMin = 2f;
+    public float minHeight = 2f;
+
     // Use this for initialization
     void Start()
     {
@@ -34,8 +36,9 @@ public class MoveCameraScript : MonoBehaviour
                 rand *= distanceMin;
             }
 
-            rand.y = Mathf.Abs(rand.y);
+            rand.y = Mathf.Abs(rand.y) + minHeight;
             transform.position = rand;
+            
             transform.LookAt(new Vector3(0,1,0) + (RandomizeLook ? UnityEngine.Random.insideUnitSphere:Vector3.zero));
             myRecorder.CaptureScreenshot();
         }
