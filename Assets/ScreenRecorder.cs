@@ -163,19 +163,30 @@ public class ScreenRecorder : MonoBehaviour
             return;
         }
 
-
-
-        int pos = (int)Vector3.SignedAngle(Camera.main.transform.position, Vector3.forward, Vector3.up);
+		//Vector3 bo = Camera.main.transform.forward;
+		//int posx = (int)Vector3.SignedAngle(Vector3.zero, Camera.main.transform.forward, Vector3.up);
+		Vector3 tmpPos = Camera.main.transform.position;
+		tmpPos.y = 0.0f;
+		//int angle = (int)Vector3.SignedAngle(tmpPos, Vector3.forward, Vector3.up);
+		int angle = (int)Vector3.SignedAngle(tmpPos, Vector3.forward, Vector3.up);
         //angle 0 to 360
-        if (pos < 0) pos = 360 + pos;
-        
+        if (angle < 0) angle = 360 + angle;
+
+
+		//pratique pour debugger
+		/*float angle_as_float = (float)angle / 360.0f;
+		GameObject s = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+		s.transform.position = Camera.main.transform.position;
+		s.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+		s.GetComponent<Renderer>().material.color = new Color (angle_as_float, angle_as_float, angle_as_float, 0.5f);*/
+
         int x = (int)rectPied.ScrRect.x;
         int y = (int)rectPied.ScrRect.y;
         int x2 = x+(int)rectPied.ScrRect.width;
         int y2 = y+(int)rectPied.ScrRect.height;
         string rec = string.Format("{0},{1},{2},{3}", x, y, x2, y2);
         //string rec = x+ "," + int.Parse(rectPied.ScrRect.y) + "," + int.Parse(rectPied.ScrRect.width) + "," + int.Parse(rectPied.ScrRect.height);
-        string contents = string.Format("{0},{1},{2},{3}\n",filename,pos,rec,objectClass);
+        string contents = string.Format("{0},{1},{2},{3}\n",filename,angle,rec,objectClass);
         contents = contents.Replace(@"\","/");
         File.AppendAllText(folder + "/output.txt", contents);
 
