@@ -172,7 +172,7 @@ public class ScreenRecorder : MonoBehaviour
         int x = (int)rectPied.ScrRect.x;
         int y = (int)rectPied.ScrRect.y;
         int x2 = x+(int)rectPied.ScrRect.width;
-        int y2 = y+(int)rectPied.ScrRect.width;
+        int y2 = y+(int)rectPied.ScrRect.height;
         string rec = string.Format("{0},{1},{2},{3}", x, y, x2, y2);
         //string rec = x+ "," + int.Parse(rectPied.ScrRect.y) + "," + int.Parse(rectPied.ScrRect.width) + "," + int.Parse(rectPied.ScrRect.height);
         string contents = string.Format("{0},{1},{2},{3}\n",filename,pos,rec,objectClass);

@@ -83,6 +83,7 @@
     <Compile Include="Assets\MoveCameraScript.cs" />
     <Compile Include="Assets\RectPied.cs" />
     <Compile Include="Assets\ScreenRecorder.cs" />
+    <Compile Include="Assets\TextureLoader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
