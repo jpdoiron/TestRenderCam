@@ -6,7 +6,7 @@ using UnityEngine;
 public class TextureLoader : MonoBehaviour
 {
 
-    private string path = "D:/dev/TestRenderCam/Wallpapers/";
+    private string path = "./Wallpapers/";
     private FileInfo [] fileInfo;
     private List<string> filename;
 
